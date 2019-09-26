@@ -45,8 +45,11 @@
         var socket=io();
         function buttonClick()
         {
-          socket.emit('activateTrap',{activateTrap:true});
+          socket.emit('TestEvent',{description:true});
         }
+        socket.on('TestEvent',function(data){
+          console.log(data);
+        })
       </script>
       <section class="dreams">
         <ul id="dreams"></ul>

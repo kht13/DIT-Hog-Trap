@@ -16,6 +16,7 @@ io.on('connection',function(socket){
   console.log("Connect")
   socket.on('TestEvent',function(data){
     console.log(data.description)
+    io.emit('TestEvent',data)
   })
 })
 // http://expressjs.com/en/starter/basic-routing.html
