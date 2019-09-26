@@ -20,6 +20,8 @@
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    
     <!-- import the webpage's client-side javascript file -->
     <script src="/client.js" defer></script>
   </head>
@@ -37,9 +39,15 @@
       
       <form>
         <input name="dream" type="text" maxlength="100" placeholder="Dreams!" aria-labelledby="submit-dream">
-        <button type="submit" id="submit-dream">Submit Dream</button>
+        <button type="submit" id="submit-dream" onclick="buttonClick()">Submit Dream</button>
       </form>
-      
+      <script>
+        var socket=io();
+        function buttonClick()
+        {
+          socket.emit('TestEvent',{description:"Yes"});
+        }
+      </script>
       <section class="dreams">
         <ul id="dreams"></ul>
       </section>
