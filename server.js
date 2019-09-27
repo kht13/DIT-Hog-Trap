@@ -28,7 +28,7 @@ io.on('connection',function(socket){
   });
   
   socket.on('trapActivated',function(data){
-    console.log(data.trap);
+    console.log(data);
   });
   
 })
