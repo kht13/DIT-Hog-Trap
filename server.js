@@ -12,6 +12,8 @@ const io=require('socket.io')(server);
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
+app.set('trust proxy', true); 
+
 io.on('connection',function(socket){
   console.log("Connect")
   socket.on('TestEvent',function(data){
