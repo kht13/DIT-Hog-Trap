@@ -20,6 +20,7 @@ io.on('connection',function(socket){
     console.log(data.description)
     io.emit('TestEvent',data)
   })
+  socket.on('disconnect')
 })
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
