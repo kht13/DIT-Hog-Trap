@@ -17,18 +17,13 @@ app.set('trust proxy', true);
 io.on('connection',function(socket){
   console.log("Connect");
   
-  socket.on('TestEvent',function(data){
-    console.log(data.description)
-    io.emit('TestEvent',data);
-  });
-  
   socket.on('setTrapOff',function(data){
     io.emit('activateTrap',data);
     console.log(socket);
   });
   
   socket.on('trapActivated',function(data){
-    console.log(data);
+    io.emit('trapActivated',data);
   });
   
 })
