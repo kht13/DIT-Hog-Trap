@@ -21,47 +21,32 @@
     <link rel="stylesheet" href="/style.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
-    
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/client.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>
-        A Dream of the Future
-      </h1>
-    </header>
-
-    <main>
-      <p class="bold">Oh hi,</p>
+    <h1>
+      Click the button below to activate trap!
+    </h1>
+    <button onclick="activateTrap">
+      Activate trap
+    </button>
+    <p id="trapStatus">
       
-      <p>Tell me your hopes and dreams:</p>
-      
-      <form>
-        <input name="dream" type="text" maxlength="100" placeholder="Dreams!" aria-labelledby="submit-dream">
-        <button type="submit" id="submit-dream" onclick="buttonClick()">Submit Dream</button>
-      </form>
-      <script>
-        var socket=io();
-        function buttonClick()
-        {
-          socket.emit('setTrapOff',{description:true});
-        }
-        socket.on('trapActivated,functio')
-      </script>
-      <section class="dreams">
-        <ul id="dreams"></ul>
-      </section>
-    </main>
-
-    <footer>
-      Made with <a href="https://glitch.com">Glitch</a>!
-    </footer>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js"></script>
-
+    </p>
+    <script>
+      var socket=io();
+      function activateTrap()
+      {
+        socket.emit('activateTrap',{description:true});
+      }
+      socket.on('trapActivated',function(data){
+        document.getElementById("trapStatus").innerHTML="Trap Activated";
+        setTimeout(function() {
+          document.getElementById("trapStatus").style.opacity="0";
+          document.getElementById("trapStatus").style.transition="opacity 0.5s";
+          document.getElementById("trapStatus").innerHTML="";
+          document.getElementById("trapStatus").style.opacity="1";
+        },2000);
+      });
+    </script>
   </body>
 </html>

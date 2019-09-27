@@ -17,7 +17,7 @@ app.set('trust proxy', true);
 io.on('connection',function(socket){
   console.log("Connect");
   
-  socket.on('setTrapOff',function(data){
+  socket.on('activateTrap',function(data){
     io.emit('activateTrap',data);
     console.log(socket);
   });
