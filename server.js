@@ -19,6 +19,7 @@ var trapIsOnline=false;
 io.on('connection',function(socket){
   var isTrap=false;
   io.emit('trapIsOnline',trapIsOnline);
+  console.log(trapIsOnline);
   console.log("Connect");
   
   socket.on('activateTrap',function(data){
@@ -33,6 +34,10 @@ io.on('connection',function(socket){
       }
     io.emit('trapIsOnline',trapIsOnline);
   });
+  
+  socket.on('disconnectTrap',function(data){
+    io.emit('disconnectTrap',data);
+  })
   
   socket.on('disconnect',function(){
     if(isTrap)

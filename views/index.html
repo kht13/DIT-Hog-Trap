@@ -29,6 +29,9 @@
     <button id="trapActivator" onclick="activateTrap()">
       Activate trap
     </button>
+    <button id="disconnectTrap" onclick="disconnectTrap()" style="margin-left:10px">
+      Disconnect trap
+    </button>
     <p id="trapStatus">
       
     </p>
@@ -36,16 +39,27 @@
       var socket=io();
       var timeOutTimer;
       var trapButton=document.getElementById("trapActivator");
+      var disconnectButton=document.getElementById("disconnectTrap");
       var trapStatus=document.getElementById("trapStatus");
       
-      trapButton.disabled=true;
+      trapButton.disabled=disconnectButton.disabled=true;
       
       socket.on('trapIsOnline',function(trapIsOnline){
         if(trapIsOnline)
-          trapButton.disabled=false;
+        {
+          trapButton.disabled=disconnectButton.disabled=false;
+          trapStatus.innerHTML="";
+        }
         else
-          trapButton.disabled=true;
+        {
+          trapButton.disabled=disconnectButton.disabled=true;
+          trapStatus.innerHTML="It seems like the trap is offline.";
+        }
       });
+      function disconnectTrap()
+      {
+        socket.emit('disconnectTrap',{name:"hogTrap"});
+      }
       function activateTrap()
       {
         socket.emit('activateTrap',{description:true});
