@@ -45,7 +45,7 @@
         var socket=io();
         function buttonClick()
         {
-          socket.emit('TestEvent',{description:true});
+          socket.emit('setTrapOff',{description:true});
         }
         socket.on('TestEvent',function(data){
           console.log(data);

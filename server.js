@@ -15,14 +15,22 @@ app.use(express.static('public'));
 app.set('trust proxy', true); 
 
 io.on('connection',function(socket){
-  console.log("Connect")
+  console.log("Connect");
+  
   socket.on('TestEvent',function(data){
     console.log(data.description)
-    io.emit('TestEvent',data)
-  })
-  socket.on('disconnect',function(){
-    console.log("disconnect");
-  })
+    io.emit('TestEvent',data);
+  });
+  
+  socket.on('setTrapOff',function(data){
+    io.emit('activateTrap',data);
+    console.log(socket);
+  });
+  
+  socket.on('trapActivated',function(data){
+    console.log(data.trap);
+  });
+  
 })
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
