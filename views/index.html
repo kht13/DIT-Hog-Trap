@@ -26,7 +26,7 @@
     <h1>
       Click the button below to activate trap!
     </h1>
-    <button onclick="activateTrap">
+    <button id="trapActivator" onclick="activateTrap()">
       Activate trap
     </button>
     <p id="trapStatus">
@@ -39,12 +39,11 @@
         socket.emit('activateTrap',{description:true});
       }
       socket.on('trapActivated',function(data){
-        document.getElementById("trapStatus").innerHTML="Trap Activated";
+        document.getElementById("trapStatus").innerHTML=data;
+        document.getElementById("trapActivator").disabled=true;
         setTimeout(function() {
-          document.getElementById("trapStatus").style.opacity="0";
-          document.getElementById("trapStatus").style.transition="opacity 0.5s";
           document.getElementById("trapStatus").innerHTML="";
-          document.getElementById("trapStatus").style.opacity="1";
+          document.getElementById("trapActivator").disabled=false;
         },2000);
       });
     </script>
