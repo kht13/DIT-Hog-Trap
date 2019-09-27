@@ -19,12 +19,10 @@ var trapIsOnline=false;
 io.on('connection',function(socket){
   var isTrap=false;
   io.emit('trapIsOnline',trapIsOnline);
-  console.log(trapIsOnline);
   console.log("Connect");
   
   socket.on('activateTrap',function(data){
     io.emit('activateTrap',data);
-    console.log(socket);
   });
   
   socket.on('identify',function(data){
