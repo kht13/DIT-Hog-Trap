@@ -15,11 +15,28 @@ app.use(express.static('public'));
 app.set('trust proxy', true); 
 
 io.on('connection',function(socket){
+
+  var isTrap=false;
   console.log("Connect");
   
   socket.on('activateTrap',function(data){
     io.emit('activateTrap',data);
     console.log(socket);
+  });
+  
+  socket.on('online',function(data){
+    if(data.name=="hogTrap")
+      {
+        isTrap=true;
+      }
+    io.emit('online',data);
+  });
+  
+  socket.on('disconnect',function(){
+    if(isTrap)
+      {
+        
+      }
   });
   
   socket.on('trapActivated',function(data){
