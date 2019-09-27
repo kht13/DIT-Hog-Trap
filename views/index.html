@@ -34,16 +34,27 @@
     </p>
     <script>
       var socket=io();
+      var timeOutTimer;
+      var trapButton=document.getElementById("trapActivator");
+      var trapStatus=document.getElementById("trapStatus");
       function activateTrap()
       {
         socket.emit('activateTrap',{description:true});
+        trapButton.disabled=true;
+        timeOutTimer=setTimeout(function(){
+          trapButton.disabled=false;
+          trapStatus.innerHTML="Seems like the trap is offline";
+          setTimeout(function() {
+            trapStatus.innerHTML="";
+          },2000);
+        },10000);
       }
       socket.on('trapActivated',function(data){
-        document.getElementById("trapStatus").innerHTML=data;
-        document.getElementById("trapActivator").disabled=true;
+        trapStatus.innerHTML=data;
+        clearTimeout(timeOutTimer);
         setTimeout(function() {
-          document.getElementById("trapStatus").innerHTML="";
-          document.getElementById("trapActivator").disabled=false;
+          trapStatus.innerHTML="";
+          trapButton.disabled=false;
         },2000);
       });
     </script>
