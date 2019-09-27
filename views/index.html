@@ -37,13 +37,22 @@
       var timeOutTimer;
       var trapButton=document.getElementById("trapActivator");
       var trapStatus=document.getElementById("trapStatus");
+      
+      trapButton.disabled=true;
+      
+      socket.on('trapIsOnline',function(trapIsOnline){
+        if(trapIsOnline)
+          trapButton.disabled=false;
+        else
+          trapButton.disabled=true;
+      });
       function activateTrap()
       {
         socket.emit('activateTrap',{description:true});
         trapButton.disabled=true;
         timeOutTimer=setTimeout(function(){
           trapButton.disabled=false;
-          trapStatus.innerHTML="Seems like the trap is offline";
+          trapStatus.innerHTML="A problem has been encountered";
           setTimeout(function() {
             trapStatus.innerHTML="";
           },2000);

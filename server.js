@@ -14,9 +14,11 @@ const io=require('socket.io')(server);
 app.use(express.static('public'));
 app.set('trust proxy', true); 
 
-io.on('connection',function(socket){
+var trapIsOnline=false;
 
+io.on('connection',function(socket){
   var isTrap=false;
+  io.emit('trapIsOnline',trapIsOnline);
   console.log("Connect");
   
   socket.on('activateTrap',function(data){
@@ -24,18 +26,19 @@ io.on('connection',function(socket){
     console.log(socket);
   });
   
-  socket.on('online',function(data){
+  socket.on('identify',function(data){
     if(data.name=="hogTrap")
       {
-        isTrap=true;
+        trapIsOnline=isTrap=true;
       }
-    io.emit('online',data);
+    io.emit('trapIsOnline',trapIsOnline);
   });
   
   socket.on('disconnect',function(){
     if(isTrap)
       {
-        
+        trapIsOnline=false;
+        io.emit('trapIsOnline',trapIsOnline);
       }
   });
   
