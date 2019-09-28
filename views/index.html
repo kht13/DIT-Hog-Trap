@@ -26,10 +26,10 @@
     <h1>
       Click the button below to activate trap!
     </h1>
-    <button id="trapActivator" onclick="activateTrap()">
+    <button id="trapActivator" onclick="activateTrap()" disabled>
       Activate trap
     </button>
-    <button id="disconnectTrap" onclick="disconnectTrap()" style="margin-left:10px">
+    <button id="disconnectTrap" onclick="disconnectTrap()" style="margin-left:10px" disabled>
       Disconnect trap
     </button>
     <p id="trapStatus">
@@ -41,8 +41,6 @@
       var trapButton=document.getElementById("trapActivator");
       var disconnectButton=document.getElementById("disconnectTrap");
       var trapStatus=document.getElementById("trapStatus");
-      
-      trapButton.disabled=disconnectButton.disabled=true;
       
       socket.on('trapIsOnline',function(trapIsOnline){
         if(trapIsOnline)
