@@ -11,15 +11,20 @@
 <html lang="en">
   <head>
     <title>Welcome to Glitch!</title>
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    
+    <link rel="stylesheet" href="/style.css" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
   </head>
   <body>
@@ -29,64 +34,75 @@
     <button id="trapActivator" onclick="activateTrap()" disabled>
       Activate trap
     </button>
-    <button id="disconnectTrap" onclick="disconnectTrap()" style="margin-left:10px" disabled>
+    <button
+      id="disconnectTrap"
+      onclick="disconnectTrap()"
+      style="margin-left:10px"
+      disabled
+    >
       Disconnect trap
     </button>
-    <p id="trapStatus">
-      
-    </p>
+    <p id="trapStatus"></p>
     <script>
-      var socket=io();
+      var socket = io();
       var timeOutTimer;
-      var trapButton=document.getElementById("trapActivator");
-      var disconnectButton=document.getElementById("disconnectTrap");
-      var trapStatus=document.getElementById("trapStatus");
-      
-      socket.on('trapIsOnline',function(trapIsOnline){
-        if(trapIsOnline)
-        {
-          trapButton.disabled=disconnectButton.disabled=false;
-          trapStatus.innerHTML="";
-        }
-        else
-        {
-          trapButton.disabled=disconnectButton.disabled=true;
-          trapStatus.innerHTML="It seems like the trap is offline.";
+      var trapButton = document.getElementById("trapActivator");
+      var disconnectButton = document.getElementById("disconnectTrap");
+      var trapStatus = document.getElementById("trapStatus");
+
+      socket.on("trapIsOnline", function(trapIsOnline) {
+        if (trapIsOnline) {
+          trapButton.disabled = disconnectButton.disabled = false;
+          trapStatus.innerHTML = "";
+        } else {
+          trapButton.disabled = disconnectButton.disabled = true;
+          trapStatus.innerHTML = "It seems like the trap is offline.";
         }
       });
-      function disconnectTrap()
-      {
-        socket.emit('disconnectTrap',{name:"hogTrap"});
+      function disconnectTrap() {
+        socket.emit("disconnectTrap", { name: "hogTrap" });
       }
-      function activateTrap()
-      {
-        socket.emit('activateTrap',{description:true});
-        trapButton.disabled=true;
-        timeOutTimer=setTimeout(function(){
-          trapButton.disabled=false;
-          trapStatus.innerHTML="A problem has been encountered";
+      function activateTrap() {
+        socket.emit("activateTrap", { description: true });
+        trapButton.disabled = true;
+        timeOutTimer = setTimeout(function() {
+          trapButton.disabled = false;
+          trapStatus.innerHTML = "A problem has been encountered";
           setTimeout(function() {
-            trapStatus.innerHTML="";
-          },2000);
-        },10000);
+            trapStatus.innerHTML = "";
+          }, 2000);
+        }, 10000);
       }
-      socket.on('trapActivated',function(data){
-        trapStatus.innerHTML=data;
+      socket.on("trapActivated", function(data) {
+        trapStatus.innerHTML = data;
         clearTimeout(timeOutTimer);
         setTimeout(function() {
-          trapStatus.innerHTML="";
-          trapButton.disabled=false;
-        },2000);
+          trapStatus.innerHTML = "";
+          trapButton.disabled = false;
+        }, 2000);
       });
-      
+
       socket.on("image", function(data) {
-        if(data.type=="jpeg")
-          {
-            
+        console.log("image event triggered");
+        if (data.type == "jpeg") {
+          console.log("jpeg?");
+          var trapImage = document.getElementById("trapImage");
+          if (!trapImage) {
+            console.log("trapImage null");
             var newNode = document.createElement("img");
-            newNode.setAttribute("src", "https://cdn.hyperdev.com/paste-me.svg?v=1477325869954");
-            var s= trapStatus.insertBefore(newNode, null);
+            newNode.setAttribute("id", "trapImage");
+            newNode.setAttribute(
+              "src",
+              "data:image/jpeg;base64," + data.toString("base64")
+            );
+            var s = trapStatus.nextSibling.insertBefore(newNode, null);
+          } else {
+            trapImage.setAttribute(
+              "src",
+              "data:image/jpeg;base64," + data.toString("base64")
+            );
           }
+        }
       });
     </script>
   </body>
