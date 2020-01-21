@@ -95,13 +95,13 @@
             newNode.setAttribute("id", "trapImage");
             newNode.setAttribute(
               "src",
-              "data:image/jpeg;base64," + data.data.toString("base64")
+              "data:image/jpeg;base64," + data.data
             );
             var s = trapStatus.nextSibling.insertBefore(newNode, null);
           } else {
             trapImage.setAttribute(
               "src",
-              "data:image/jpeg;base64," + data.data.toString("base64")
+              "data:image/jpeg;base64," + data.data
             );
           }
         }
