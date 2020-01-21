@@ -25,6 +25,11 @@ io.on('connection',function(socket){
     io.emit('activateTrap',data);
   });
   
+  socket.on('image',function(data){
+    
+    io.emit('image',data);
+  });
+  
   socket.on('identify',function(data){
     if(data.name=="hogTrap")
       {
