@@ -85,7 +85,6 @@
 
       socket.on("image", function(data) {
         console.log("image event triggered");
-        if (data.type == "jpeg") {
           console.log("jpeg?");
           var trapImage = document.getElementById("trapImage");
           if (!trapImage) {
@@ -94,16 +93,16 @@
             newNode.setAttribute("id", "trapImage");
             newNode.setAttribute(
               "src",
-              "data:image/jpeg;base64," + data.toString("base64")
+              "data:image/jpeg;base64," + window.btoa(data)
             );
             var s = trapStatus.nextSibling.insertBefore(newNode, null);
           } else {
             trapImage.setAttribute(
               "src",
-              "data:image/jpeg;base64," + data.toString("base64")
+              "data:image/jpeg;base64," + window.btoa(data)
             );
           }
-        }
+        
       });
     </script>
   </body>
