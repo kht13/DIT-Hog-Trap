@@ -52,7 +52,6 @@
         {
           trapButton.disabled=disconnectButton.disabled=true;
           trapStatus.innerHTML="It seems like the trap is offline.";
-          trapStatus.insertAfter
         }
       });
       function disconnectTrap()
@@ -78,6 +77,16 @@
           trapStatus.innerHTML="";
           trapButton.disabled=false;
         },2000);
+      });
+      
+      socket.on("image", function(data) {
+        if(data.type=="jpeg")
+          {
+            
+            var newNode = document.createElement("img");
+            newNode.setAttribute("src", "https://cdn.hyperdev.com/paste-me.svg?v=1477325869954");
+            var s= trapStatus.insertBefore(newNode, null);
+          }
       });
     </script>
   </body>
