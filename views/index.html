@@ -85,24 +85,26 @@
 
       socket.on("image", function(data) {
         console.log("image event triggered");
+        if (data.type == "jpeg") {
           console.log("jpeg?");
           var trapImage = document.getElementById("trapImage");
+          console.log(data.data.toString("base64"))
           if (!trapImage) {
             console.log("trapImage null");
             var newNode = document.createElement("img");
             newNode.setAttribute("id", "trapImage");
             newNode.setAttribute(
               "src",
-              "data:image/jpeg;base64," + window.btoa(data)
+              "data:image/jpeg;base64," + data.data.toString("base64")
             );
             var s = trapStatus.nextSibling.insertBefore(newNode, null);
           } else {
             trapImage.setAttribute(
               "src",
-              "data:image/jpeg;base64," + window.btoa(data)
+              "data:image/jpeg;base64," + data.data.toString("base64")
             );
           }
-        
+        }
       });
     </script>
   </body>
