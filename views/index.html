@@ -51,7 +51,7 @@
       Update Picture
     </button>
     <p id="trapStatus"></p>
-    <img id="trapImage">
+    <img id="trapImage" height="480px" width="853px" />
     <script>
       var socket = io();
       var timeOutTimer;
@@ -69,9 +69,15 @@
           trapStatus.innerHTML = "It seems like the trap is offline.";
         }
       });
+
       function disconnectTrap() {
         socket.emit("disconnectTrap", { name: "hogTrap" });
       }
+
+      function updatePic() {
+        socket.emit("updatePic", { name: "hogTrap" });
+      }
+
       function activateTrap() {
         socket.emit("activateTrap", { description: true });
         trapButton.disabled = true;
@@ -97,22 +103,8 @@
         if (data.type == "jpeg") {
           console.log("jpeg?");
           var trapImage = document.getElementById("trapImage");
-          console.log(data.data.toString("base64"))
-          if (!trapImage) {
-            console.log("trapImage null");
-            var newNode = document.createElement("img");
-            newNode.setAttribute("id", "trapImage");
-            newNode.setAttribute(
-              "src",
-              "data:image/jpeg;base64," + data.data
-            );
-            var s = trapStatus.nextSibling.insertBefore(newNode, null);
-          } else {
-            trapImage.setAttribute(
-              "src",
-              "data:image/jpeg;base64," + data.data
-            );
-          }
+          console.log(data.data.toString("base64"));
+          trapImage.setAttribute("src", "data:image/jpeg;base64," + data.data);
         }
       });
     </script>
