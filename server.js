@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 var server = require('http').Server(app);
 const io=require('socket.io')(server);
+const fs = require('fs');
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -26,7 +27,9 @@ io.on('connection',function(socket){
   });
   
   socket.on('image',function(data){
-    
+    fs.writeFile("latestImage.txt",data.data, function(err){
+      if(err) console.log(err);
+    })
     io.emit('image',data);
   });
   
