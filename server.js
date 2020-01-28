@@ -42,6 +42,10 @@ io.on('connection',function(socket){
     io.emit('disconnectTrap',data);
   })
   
+  socket.on('updatePic', function(data) {
+    io.emit('updatePic', data);
+  })
+  
   socket.on('disconnect',function(){
     if(isTrap)
       {

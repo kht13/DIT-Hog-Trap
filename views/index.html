@@ -42,6 +42,14 @@
     >
       Disconnect trap
     </button>
+    <button
+      id="updatePicture"
+      onclick="updatePic()"
+      style="margin-left:10px"
+      disabled
+    >
+      Update Picture
+    </button>
     <p id="trapStatus"></p>
     <img id="trapImage">
     <script>
@@ -49,14 +57,15 @@
       var timeOutTimer;
       var trapButton = document.getElementById("trapActivator");
       var disconnectButton = document.getElementById("disconnectTrap");
+      var picButton = document.getElementById("updatePicture");
       var trapStatus = document.getElementById("trapStatus");
 
       socket.on("trapIsOnline", function(trapIsOnline) {
         if (trapIsOnline) {
-          trapButton.disabled = disconnectButton.disabled = false;
+          trapButton.disabled = disconnectButton.disabled = picButton.disabled = false;
           trapStatus.innerHTML = "";
         } else {
-          trapButton.disabled = disconnectButton.disabled = true;
+          trapButton.disabled = disconnectButton.disabled = picButton.disabled = true;
           trapStatus.innerHTML = "It seems like the trap is offline.";
         }
       });
