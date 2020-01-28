@@ -59,7 +59,20 @@
       var disconnectButton = document.getElementById("disconnectTrap");
       var picButton = document.getElementById("updatePicture");
       var trapStatus = document.getElementById("trapStatus");
+      var trapImage = document.getElementById("trapImage");
 
+      var rawFile = new XMLHttpRequest();
+      rawFile.open("GET", "latestImage.txt", true);
+      rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4) {
+          if (rawFile.status === 200 || rawFile.status == 0) {
+            var allText = rawFile.responseText;
+            trapImage.setAttribute("src", "data:image/jpeg;base64," + allText);
+          }
+        }
+        console.log("Here")
+      };
+      
       socket.on("trapIsOnline", function(trapIsOnline) {
         if (trapIsOnline) {
           trapButton.disabled = disconnectButton.disabled = picButton.disabled = false;
@@ -102,7 +115,6 @@
         console.log("image event triggered");
         if (data.type == "jpeg") {
           console.log("jpeg?");
-          var trapImage = document.getElementById("trapImage");
           console.log(data.data.toString("base64"));
           trapImage.setAttribute("src", "data:image/jpeg;base64," + data.data);
         }

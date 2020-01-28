@@ -27,7 +27,7 @@ io.on('connection',function(socket){
   });
   
   socket.on('image',function(data){
-    fs.writeFile("latestImage.txt",data.data, function(err){
+    fs.writeFile("/views/latestImage.txt",data.data, function(err){
       if(err) console.log(err);
     })
     io.emit('image',data);
@@ -66,10 +66,6 @@ io.on('connection',function(socket){
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-
-app.get('/test', function(request, response) {
-  response.sendFile(__dirname)
-})
 
 // listen for requests :)
 const listener = server.listen(process.env.PORT, function() {
