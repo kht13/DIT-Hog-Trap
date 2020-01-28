@@ -51,7 +51,7 @@
       Update Picture
     </button>
     <p id="trapStatus"></p>
-    <img id="trapImage" height="480px" width="853px" />
+    <img id="trapImage" height="480px" width="853px">
     <script>
       var socket = io();
       var timeOutTimer;
@@ -61,23 +61,11 @@
       var trapStatus = document.getElementById("trapStatus");
       var trapImage = document.getElementById("trapImage");
 
-      var rawFile = new XMLHttpRequest();
-      rawFile.open("GET", "latestImage.txt", true);
-      rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4) {
-          if (rawFile.status === 200 || rawFile.status == 0) {
-            var allText = rawFile.responseText;
-            trapImage.setAttribute("src", "data:image/jpeg;base64," + allText);
-          }
-        }
-        console.log("Here")
-      };
-      
       socket.on("trapIsOnline", function(trapIsOnline) {
         if (trapIsOnline) {
           trapButton.disabled = disconnectButton.disabled = picButton.disabled = false;
           trapStatus.innerHTML = "";
-          io.emit("updatePic", data);
+          socket.emit("updatePic", { name: "hogTrap" });
         } else {
           trapButton.disabled = disconnectButton.disabled = picButton.disabled = true;
           trapStatus.innerHTML = "It seems like the trap is offline.";
