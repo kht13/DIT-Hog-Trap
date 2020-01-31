@@ -65,6 +65,11 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/ping',function(request, response){
+  response.send("Why you pinged me");
+  console.log("I got pinged.");
+});
+
 // listen for requests :)
 const listener = server.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
