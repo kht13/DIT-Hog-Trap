@@ -27,9 +27,6 @@ io.on('connection',function(socket){
   });
   
   socket.on('image',function(data){
-    fs.writeFile("/views/latestImage.txt",data.data, function(err){
-      if(err) console.log(err);
-    })
     io.emit('image',data);
   });
   
@@ -54,6 +51,7 @@ io.on('connection',function(socket){
       {
         trapIsOnline=false;
         io.emit('trapIsOnline',trapIsOnline);
+        console.log("Trap is offline.")
       }
   });
   
