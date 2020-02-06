@@ -1,0 +1,113 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!-- You might want to try something fancier: -->
+<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
+<!-- pug: https://pugjs.org/ -->
+<!-- haml: http://haml.info/ -->
+<!-- hbs(handlebars): http://handlebarsjs.com/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome to Glitch!</title>
+    <meta name="description" content="A cool thing made with Glitch" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+  </head>
+  <body>
+    <h1>
+      Click the button below to activate trap!
+    </h1>
+    <button id="trapActivator" onclick="activateTrap()" disabled>
+      Activate trap
+    </button>
+    <button
+      id="disconnectTrap"
+      onclick="disconnectTrap()"
+      style="margin-left:10px"
+      disabled
+    >
+      Disconnect trap
+    </button>
+    <button
+      id="updatePicture"
+      onclick="updatePic()"
+      style="margin-left:10px"
+      disabled
+    >
+      Update Picture
+    </button>
+    <p id="trapStatus"></p>
+    <img id="trapImage" height="480px" width="853px">
+    <script>
+      var socket = io();
+      var timeOutTimer;
+      var trapButton = document.getElementById("trapActivator");
+      var disconnectButton = document.getElementById("disconnectTrap");
+      var picButton = document.getElementById("updatePicture");
+      var trapStatus = document.getElementById("trapStatus");
+      var trapImage = document.getElementById("trapImage");
+
+      socket.on("trapIsOnline", function(trapIsOnline) {
+        if (trapIsOnline) {
+          trapButton.disabled = disconnectButton.disabled = picButton.disabled = false;
+          trapStatus.innerHTML = "";
+          socket.emit("updatePic", { name: "hogTrap" });
+        } else {
+          trapButton.disabled = disconnectButton.disabled = picButton.disabled = true;
+          trapStatus.innerHTML = "It seems like the trap is offline.";
+        }
+      });
+
+      function disconnectTrap() {
+        socket.emit("disconnectTrap", { name: "hogTrap" });
+      }
+
+      function updatePic() {
+        socket.emit("updatePic", { name: "hogTrap" });
+      }
+
+      function activateTrap() {
+        socket.emit("activateTrap", { description: true });
+        trapButton.disabled = true;
+        timeOutTimer = setTimeout(function() {
+          trapButton.disabled = false;
+          trapStatus.innerHTML = "A problem has been encountered";
+          setTimeout(function() {
+            trapStatus.innerHTML = "";
+          }, 2000);
+        }, 10000);
+      }
+      socket.on("trapActivated", function(data) {
+        trapStatus.innerHTML = data;
+        clearTimeout(timeOutTimer);
+        setTimeout(function() {
+          trapStatus.innerHTML = "";
+          trapButton.disabled = false;
+        }, 2000);
+      });
+
+      socket.on("image", function(data) {
+        console.log("image event triggered");
+        if (data.type == "jpeg") {
+          console.log("jpeg?");
+          console.log(data.data.toString("base64"));
+          trapImage.setAttribute("src", "data:image/jpeg;base64," + data.data);
+        }
+      });
+    </script>
+  </body>
+</html>
