@@ -22,10 +22,6 @@ io.on('connection',function(socket){
   io.emit('trapIsOnline',trapIsOnline);
   console.log("Connect");
   
-  socket.on('activateTrap',function(data){
-    io.emit('activateTrap',data);
-  });
-  
   socket.on('image',function(data){
     io.emit('image',data);
   });

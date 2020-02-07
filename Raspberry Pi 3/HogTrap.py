@@ -29,12 +29,10 @@ def activateTrap(data):
     
     sio.emit("trapActivated","Trap has been activated.")
 
-ipAdd = socket.gethostbyname(socket.gethostname())
-print(ipAdd)
 @sio.event
 def updatePic(data):
     '''send latest pic'''
-    #paste pic url from motion eye for url below
+    ipAdd = socket.gethostbyname(socket.gethostname())
     response = http.request('GET', 'http://'+ipAdd+':8765/picture/1/current')
     camPic = base64.b64encode(response.data).decode()
     sio.emit("image", {"type": "jpeg","data":camPic})
@@ -42,11 +40,6 @@ def updatePic(data):
 @sio.event
 def trapActivated(data):
     print(data)
-
-@sio.event
-def disconnectTrap(data):
-    if data["name"]=="hogTrap":
-        sio.disconnect()
 
 sio.wait()
 GPIO.cleanup()
