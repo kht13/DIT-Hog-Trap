@@ -34,8 +34,8 @@ io.on('connection',function(socket){
     io.emit('trapIsOnline',trapIsOnline);
   });
   
-  socket.on('disconnectTrap',function(data){
-    io.emit('disconnectTrap',data);
+  socket.on('activateTrap',function(data){
+    io.emit('activateTrap',data);
   })
   
   socket.on('updatePic', function(data) {
