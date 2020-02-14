@@ -47,6 +47,7 @@
     <script>
       var socket = io();
       var timeOutTimer;
+      var imageTimeOutTimer;
       var trapButton = document.getElementById("trapActivator");
       var picButton = document.getElementById("updatePicture");
       var trapStatus = document.getElementById("trapStatus");
@@ -54,7 +55,7 @@
 
       socket.on("trapIsOnline", function(trapIsOnline) {
         if (trapIsOnline) {
-          trapButton.disabled = picButton.disabled = false;
+          trapButton.disabled = false;
           trapStatus.innerHTML = "";
           socket.emit("updatePic", { name: "hogTrap" });
         } else {
@@ -62,10 +63,6 @@
           trapStatus.innerHTML = "It seems like the trap is offline.";
         }
       });
-
-      function updatePic() {
-        socket.emit("updatePic", { name: "hogTrap" });
-      }
 
       function activateTrap() {
         socket.emit("activateTrap", { description: true });
@@ -87,11 +84,22 @@
         }, 2000);
       });
 
+      function updatePic() {
+        socket.emit("updatePic", { name: "hogTrap" });
+        picButton.disabled = true;
+        imageTimeOutTimer = setTimeout(function() {
+          picButton.disabled = false;
+          trapStatus.innerHTML = "A problem has been encountered";
+          setTimeout(function() {
+            trapStatus.innerHTML = "";
+          }, 2000);
+        }, 10000);
+      }
+
       socket.on("image", function(data) {
-        console.log("image event triggered");
+        clearTimeout(imageTimeOutTimer);
+        picButton.disabled = false;
         if (data.type == "jpeg") {
-          console.log("jpeg?");
-          console.log(data.data.toString("base64"));
           trapImage.setAttribute("src", "data:image/jpeg;base64," + data.data);
         }
       });
