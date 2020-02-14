@@ -1,4 +1,4 @@
-import socketio,time,base64, urllib3, socket
+import socketio, time, base64, urllib3, socket
 import RPi.GPIO as GPIO
 
 start_time = time.time()
@@ -26,7 +26,6 @@ def activateTrap(data):
     GPIO.output(latch, GPIO.HIGH)
     time.sleep(1)
     GPIO.output(latch, GPIO.LOW)
-    
     sio.emit("trapActivated","Trap has been activated.")
 
 @sio.event
@@ -36,10 +35,6 @@ def updatePic(data):
     response = http.request('GET', 'http://'+ipAdd+':8765/picture/1/current')
     camPic = base64.b64encode(response.data).decode()
     sio.emit("image", {"type": "jpeg","data":camPic})
-
-@sio.event
-def trapActivated(data):
-    print(data)
 
 sio.wait()
 GPIO.cleanup()
