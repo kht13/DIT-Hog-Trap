@@ -3,15 +3,18 @@
 numTry=0
 runtimes=(1000 1000 1000)
 delayMinutes=10
+workDir=/home/pi/Desktop/
+sleep 30
+
 while :
 do
   ((numTry=numTry+1))
   start_time=`date +%s`
   if [ $numTry -eq 1 ]
   then
-    setsid python3 HogTrap.py < /dev/zero &> HogTrap.log &
+    setsid python3 ${workDir}HogTrap.py < /dev/zero &> ${workDir}HogTrap.log &
   else
-    setsid python3 HogTrap.py < /dev/zero &>> HogTrap.log &
+    setsid python3 ${workDir}HogTrap.py < /dev/zero &>> ${workDir}HogTrap.log &
   fi
   wait
   end_time=`date +%s`
