@@ -46,8 +46,8 @@
     <img id="trapImage" height="480px" width="853px">
     <script>
       var socket = io();
-      var timeOutTimer;
-      var imageTimeOutTimer;
+      var timeOutTimer = setTimeout(()=>{},1000);
+      var imageTimeOutTimer = setTimeout(()=>{},1000);;
       var trapButton = document.getElementById("trapActivator");
       var picButton = document.getElementById("updatePicture");
       var trapStatus = document.getElementById("trapStatus");
@@ -61,6 +61,8 @@
         } else {
           trapButton.disabled = picButton.disabled = true;
           trapStatus.innerHTML = "It seems like the trap is offline.";
+          clearTimeout(timeOutTimer);
+          clearTimeout(imageTimeOutTimer);
         }
       });
 
