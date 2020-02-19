@@ -19,11 +19,11 @@ var trapIsOnline=false;
 
 io.on('connection',function(socket){
   var isTrap=false;
-  io.emit('trapIsOnline',trapIsOnline);
+  socket.emit('trapIsOnline',trapIsOnline);
   console.log("Connect");
   
   socket.on('image',function(data){
-    io.emit('image',data);
+    socket.to(data.socketid).emit('image',data);
   });
   
   socket.on('identify',function(data){
@@ -31,7 +31,7 @@ io.on('connection',function(socket){
       {
         trapIsOnline=isTrap=true;
       }
-    io.emit('trapIsOnline',trapIsOnline);
+    socket.broadcast.emit('trapIsOnline',trapIsOnline);
   });
   
   socket.on('activateTrap',function(data){

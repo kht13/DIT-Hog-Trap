@@ -1,4 +1,4 @@
-import socketio, time, base64, urllib3, socket
+import socketio,time,base64, urllib3, socket
 import RPi.GPIO as GPIO
 
 start_time = time.time()
@@ -9,7 +9,7 @@ latch = 7
 GPIO.setup(latch, GPIO.OUT)
 GPIO.output(latch, GPIO.LOW)
 
-sio=socketio.Client(True,logger=True)
+sio=socketio.Client(True, logger=True)
 
 sio.connect("https://dit-hog-trap.glitch.me")
 
@@ -34,7 +34,7 @@ def updatePic(data):
     ipAdd = socket.gethostbyname(socket.gethostname())
     response = http.request('GET', 'http://'+ipAdd+':8765/picture/1/current')
     camPic = base64.b64encode(response.data).decode()
-    sio.emit("image", {"type": "jpeg","data":camPic})
+    sio.emit("image", {"type": "jpeg","data":camPic,"socketid":data["socketid"]})
 
 sio.wait()
 GPIO.cleanup()

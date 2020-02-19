@@ -43,11 +43,11 @@
       Update Picture
     </button>
     <p id="trapStatus"></p>
-    <img id="trapImage" height="480px" width="853px">
+    <img id="trapImage" height="480px" width="853px" />
     <script>
       var socket = io();
-      var timeOutTimer = setTimeout(()=>{},1000);
-      var imageTimeOutTimer = setTimeout(()=>{},1000);;
+      var timeOutTimer = setTimeout(() => {}, 1000);
+      var imageTimeOutTimer = setTimeout(() => {}, 1000);
       var trapButton = document.getElementById("trapActivator");
       var picButton = document.getElementById("updatePicture");
       var trapStatus = document.getElementById("trapStatus");
@@ -57,7 +57,7 @@
         if (trapIsOnline) {
           trapButton.disabled = false;
           trapStatus.innerHTML = "";
-          socket.emit("updatePic", { name: "hogTrap" });
+          socket.emit("updatePic", { name: "hogTrap", socketid: socket.id });
         } else {
           trapButton.disabled = picButton.disabled = true;
           trapStatus.innerHTML = "It seems like the trap is offline.";
@@ -87,7 +87,7 @@
       });
 
       function updatePic() {
-        socket.emit("updatePic", { name: "hogTrap" });
+        socket.emit("updatePic", { name: "hogTrap", socketid: socket.id });
         picButton.disabled = true;
         imageTimeOutTimer = setTimeout(function() {
           picButton.disabled = false;
