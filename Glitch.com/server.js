@@ -35,7 +35,7 @@ io.on('connection',function(socket){
   });
   
   socket.on('activateTrap',function(data){
-    io.emit('activateTrap',data);
+    socket.broadcast.emit('activateTrap',data);
   })
   
   socket.on('updatePic', function(data) {

@@ -66,8 +66,7 @@
         }
       });
 
-      function activateTrap() {
-        socket.emit("activateTrap", { description: true });
+      function disableTrapButton(){
         trapButton.disabled = true;
         timeOutTimer = setTimeout(function() {
           trapButton.disabled = false;
@@ -77,6 +76,17 @@
           }, 2000);
         }, 10000);
       }
+      
+      function activateTrap() {
+        socket.emit("activateTrap", { description: true });
+        disableTrapButton();
+      }
+      
+      socket.on("activateTrap", function(data) {
+        trapStatus.innerHTML = "Trap is being activated by another device.";
+        disableTrapButton();
+      });
+      
       socket.on("trapActivated", function(data) {
         trapStatus.innerHTML = data;
         clearTimeout(timeOutTimer);
