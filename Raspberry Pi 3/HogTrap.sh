@@ -2,9 +2,9 @@
 
 numTry=0
 runtimes=(1000 1000 1000)
-delayMinutes=10
+delayMinutes=1
 workDir=/home/pi/Desktop/
-sleep 30
+#sleep 15
 
 while :
 do
@@ -42,8 +42,8 @@ do
   if [ `echo ${runtimes[@]/%/+}0 | bc` -lt 300 ]
   then
     sleep ${delayMinutes}m
-    ((delayMinutes=delayMinutes+5))
+    ((delayMinutes=delayMinutes+3))
   else
-    delayMinutes=10
+    delayMinutes=1
   fi
 done

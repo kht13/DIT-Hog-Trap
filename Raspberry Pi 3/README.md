@@ -2,7 +2,7 @@ How To Run Hog Trap
 ===============
 Download the code files into your pi. They need to be in the same folder. Note the [absolute path](https://www.linux.com/tutorials/absolute-path-vs-relative-path-linuxunix/) to the folder where the files are placed. Install the dependencies required by typing this in the terminal:
     
-    sudo pip install python-socketio
+    sudo pip3 install python-socketio
 
 Change the working directory of the terminal to where your files are placed:
 
@@ -11,7 +11,6 @@ Change the working directory of the terminal to where your files are placed:
 Open the file `HogTrap.sh` and change "/home/pi/Desktop" of the following line to the absolute path of the folder:
 
     workDir=/home/pi/Desktop
-
 
 Change the permission of the shell file to be executable:
 
@@ -23,7 +22,11 @@ Finally, type in this command to start running the program:
 
 Make the Program Run At Startup
 ---
-Follow all the steps from the start to changing the permission of the file (if you still haven't). Type the following command:
+Follow all the steps from the start to changing the permission of the file (if you still haven't). Uncomment the following line in `HogTrap.sh` (by removing the leading #):
+
+    #sleep 15
+
+Type the following command:
 
     sudo nano /etc/rc.local
 

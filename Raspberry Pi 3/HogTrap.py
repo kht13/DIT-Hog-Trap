@@ -23,9 +23,11 @@ def trapIsOnline(TrapIsOnline):
 @sio.event
 def activateTrap(data):
     '''Activate Trap'''
-    GPIO.output(latch, GPIO.HIGH)
-    time.sleep(1)
-    GPIO.output(latch, GPIO.LOW)
+    for x in range(20):
+        GPIO.output(latch, GPIO.HIGH)
+        time.sleep(0.1)
+        GPIO.output(latch, GPIO.LOW)
+        time.sleep(0.1)
     sio.emit("trapActivated","Trap has been activated.")
 
 @sio.event
